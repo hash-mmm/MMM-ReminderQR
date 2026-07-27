@@ -1,0 +1,42 @@
+[
+  {
+    "id": "morning-meds",
+    "title": "Take morning medication",
+    "day": "daily",
+    "time": "08:00",
+    "sound": "alarm.mp3",
+    "soundRepeat": "untilDismissed",
+    "effect": "flash",
+    "validity": { "start": "2026-01-01", "end": "2026-12-31" }
+  },
+  {
+    "id": "trash-day",
+    "title": "Take out the trash",
+    "day": "weekly:SUN",
+    "time": "20:00",
+    "sound": "chime.mp3",
+    "soundRepeat": 3,
+    "effect": "shake",
+    "validity": { "start": "2026-01-01", "end": "2026-12-31" }
+  },
+  {
+    "id": "rent-due",
+    "title": "Pay rent",
+    "day": "monthly:1",
+    "time": "09:00",
+    "sound": "chime.mp3",
+    "soundRepeat": 5,
+    "effect": "pulse",
+    "validity": { "start": "2026-01-01", "end": "2027-01-01" }
+  },
+  {
+    "id": "anniversary",
+    "title": "Wedding anniversary!",
+    "day": "yearly:06-14",
+    "time": "07:30",
+    "sound": "fanfare.mp3",
+    "soundRepeat": "untilDismissed",
+    "effect": "zoom",
+    "validity": { "start": "2026-01-01", "end": "2036-01-01" }
+  }
+]
