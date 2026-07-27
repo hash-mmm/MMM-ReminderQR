@@ -1,0 +1,12 @@
+{
+  "name": "MMM-ReminderQR",
+  "version": "1.0.0",
+  "description": "MagicMirror module: recurring reminders (daily/weekly/monthly/yearly/once) that trigger a screen effect and a repeating sound alert, dismissed by scanning an on-screen QR code with your phone.",
+  "main": "MMM-ReminderQR.js",
+  "dependencies": {
+    "qrcode": "^1.5.3",
+    "play-sound": "^1.1.6"
+  },
+  "keywords": ["magicmirror", "MMM", "reminders", "qrcode"],
+  "license": "MIT"
+}

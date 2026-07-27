@@ -1,0 +1,174 @@
+
+.reminderqr-wrapper {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.reminderqr-card {
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid #ffffff;
+  border-radius: 12px;
+  padding: 20px 30px;
+  text-align: center;
+  color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.reminderqr-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.reminderqr-instructions {
+  font-size: 16px;
+  opacity: 0.8;
+  margin-bottom: 15px;
+}
+
+.reminderqr-qr {
+  max-width: 100%;
+  height: auto;
+  background: #ffffff;
+  padding: 8px;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ---- Upcoming reminders summary ---- */
+/*
+ * The table gets table-layout:fixed and width:20rem as inline styles in getDom()
+ * so they win over MagicMirror's ".region table { width: 100% }" rule.
+ * table-layout:fixed forces the table to honour the inline width unconditionally,
+ * which is the only reliable way to cap a module's width inside a shrink-to-fit region.
+ */
+
+.reminderqr-summary-row td {
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  vertical-align: baseline;
+}
+
+.reminderqr-summary-row:last-child td {
+  border-bottom: none;
+}
+
+.reminderqr-summary-title {
+  font-size: 16px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 6px;
+  text-align: left;
+}
+
+.reminderqr-summary-when {
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.reminderqr-summary-next {
+  font-size: 13px;
+  color: #aaffaa;
+}
+
+.reminderqr-summary-pattern {
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+/* ---- Effects, applied to <body> while a reminder is active ---- */
+
+@keyframes mmm-reminderqr-flash-kf {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: rgba(255, 0, 0, 0.35); }
+}
+.mmm-reminderqr-flash {
+  animation: mmm-reminderqr-flash-kf 1s infinite;
+}
+
+@keyframes mmm-reminderqr-shake-kf {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-8px); }
+  80% { transform: translateX(8px); }
+}
+.mmm-reminderqr-shake {
+  animation: mmm-reminderqr-shake-kf 0.4s infinite;
+}
+
+@keyframes mmm-reminderqr-pulse-kf {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.6); }
+}
+.mmm-reminderqr-pulse {
+  animation: mmm-reminderqr-pulse-kf 1.2s infinite;
+}
+
+@keyframes mmm-reminderqr-zoom-kf {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+.mmm-reminderqr-zoom {
+  animation: mmm-reminderqr-zoom-kf 1.5s infinite;
+}
+
+@keyframes mmm-reminderqr-invert-kf {
+  0%, 100% { filter: invert(0); }
+  50% { filter: invert(1); }
+}
+.mmm-reminderqr-invert {
+  animation: mmm-reminderqr-invert-kf 1s infinite;
+}
+
+@keyframes mmm-reminderqr-strobe-kf {
+  0%, 49% { background-color: transparent; }
+  50%, 100% { background-color: rgba(255, 255, 255, 0.92); }
+}
+.mmm-reminderqr-strobe {
+  animation: mmm-reminderqr-strobe-kf 0.12s infinite;
+}
+
+@keyframes mmm-reminderqr-alarm-kf {
+  0%   { background-color: rgba(220, 0, 0, 0.75); transform: translateX(-7px); }
+  25%  { background-color: rgba(80, 0, 0, 0.6);   transform: translateX(7px); }
+  50%  { background-color: rgba(220, 0, 0, 0.75); transform: translateX(-7px); }
+  75%  { background-color: rgba(80, 0, 0, 0.6);   transform: translateX(7px); }
+  100% { background-color: rgba(220, 0, 0, 0.75); transform: translateX(-7px); }
+}
+.mmm-reminderqr-alarm {
+  animation: mmm-reminderqr-alarm-kf 0.25s infinite;
+}
+
+@keyframes mmm-reminderqr-glitch-kf {
+  0%   { transform: translate(0)              filter: hue-rotate(0deg)   brightness(1); }
+  8%   { transform: translate(-5px, 2px) skewX(3deg);  filter: hue-rotate(90deg)  brightness(1.4); }
+  16%  { transform: translate(5px, -3px) skewX(-3deg); filter: hue-rotate(180deg) brightness(0.7); }
+  24%  { transform: translate(0);             filter: hue-rotate(0deg)   brightness(1); }
+  32%  { transform: translate(-3px, 5px);     filter: hue-rotate(270deg) brightness(1.6); }
+  40%  { transform: translate(3px, -5px);     filter: hue-rotate(360deg) brightness(0.8); }
+  48%  { transform: translate(0);             filter: hue-rotate(0deg)   brightness(1); }
+  100% { transform: translate(0);             filter: hue-rotate(0deg)   brightness(1); }
+}
+.mmm-reminderqr-glitch {
+  animation: mmm-reminderqr-glitch-kf 0.7s infinite;
+}
+
+@keyframes mmm-reminderqr-rainbow-kf {
+  0%   { filter: hue-rotate(0deg)   brightness(1.2); }
+  25%  { filter: hue-rotate(90deg)  brightness(1.4); }
+  50%  { filter: hue-rotate(180deg) brightness(1.2); }
+  75%  { filter: hue-rotate(270deg) brightness(1.4); }
+  100% { filter: hue-rotate(360deg) brightness(1.2); }
+}
+.mmm-reminderqr-rainbow {
+  animation: mmm-reminderqr-rainbow-kf 0.6s linear infinite;
+}
