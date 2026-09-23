@@ -30,6 +30,9 @@ module.exports = NodeHelper.create({
     this.lastFired = {}; // reminder.id -> period key already fired, so we don't re-fire every minute
     this.schedulerInterval = null;
     this.routeRegistered = false;
+    this.remindersFilePath = null;
+    this.fileWatcher = null;
+    this.fileWatchDebounce = null;
     console.log("[MMM-ReminderQR] node_helper started");
   },
 
@@ -49,6 +52,8 @@ module.exports = NodeHelper.create({
       ? this.config.remindersFile
       : path.join(this.getRootPath(), this.config.remindersFile);
 
+    this.remindersFilePath = filePath;
+
     try {
       const raw = fs.readFileSync(filePath, "utf8");
       this.reminders = JSON.parse(raw);
@@ -58,6 +63,42 @@ module.exports = NodeHelper.create({
       this.reminders = [];
     }
     this.sendSocketNotification("REMINDER_SUMMARY", this.buildSummary());
+    this.watchRemindersFile();
+  },
+
+  watchRemindersFile: function () {
+    if (this.fileWatcher || !this.remindersFilePath) return;
+
+    const startWatch = () => {
+      try {
+        this.fileWatcher = fs.watch(this.remindersFilePath, { persistent: false }, (eventType) => {
+          if (this.fileWatchDebounce) clearTimeout(this.fileWatchDebounce);
+          this.fileWatchDebounce = setTimeout(() => {
+            this.fileWatchDebounce = null;
+            if (eventType === "rename") {
+              // Some editors write atomically (rename temp → target); recreate watcher.
+              this.fileWatcher.close();
+              this.fileWatcher = null;
+              setTimeout(startWatch, 500);
+            }
+            try {
+              const raw = fs.readFileSync(this.remindersFilePath, "utf8");
+              this.reminders = JSON.parse(raw);
+              console.log(`[MMM-ReminderQR] Reloaded ${this.reminders.length} reminder(s) from ${this.remindersFilePath}`);
+            } catch (err) {
+              console.error("[MMM-ReminderQR] Could not reload reminders file:", err.message);
+              return;
+            }
+            this.sendSocketNotification("REMINDER_SUMMARY", this.buildSummary());
+          }, 300);
+        });
+        console.log(`[MMM-ReminderQR] Watching ${this.remindersFilePath} for changes`);
+      } catch (err) {
+        console.error("[MMM-ReminderQR] Could not watch reminders file:", err.message);
+      }
+    };
+
+    startWatch();
   },
 
   registerRoutes: function () {
